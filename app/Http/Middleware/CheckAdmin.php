@@ -19,12 +19,18 @@ class CheckAdmin
 
         // WE need  an authenticated user
         if (! $user) {
-            return response(['Unauthorised!'], 401);
+            return response([
+                'message' => 'Unauthorised!',
+                'status' => 'false'
+            ], 401);
         }
 
         // The user must be an admin
         if ($user->role != 'admin') {
-            return response(['Forbidden', 'Insufficient privileges'], 403);
+            return response([
+                'message' => 'Forbidden: Insufficient privileges',
+                'status' => 'false'
+            ], 403);
         }
 
         return $next($request);
