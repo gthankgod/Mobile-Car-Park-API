@@ -173,15 +173,22 @@ class CarParkController extends Controller
      */
     public function show($id)
     {
-        dd('a');
         // Get the intended resource
-        $car_park = CarPark::find($id);    
+        $car_park = CarPark::find($id);
 
-        // Output car park details
-        return response()->json([
-            'status'  => true,
-            'details' => $car_park
-        ], 200);
+        if (!$car_park) {
+            return response()->json([
+                'status'  => true,
+                'message' => 'The Car Park cannot be found'
+            ], 404);
+        }
+        else {
+            // Output car park details
+            return response()->json([
+                'status'  => true,
+                'details' => $car_park
+            ], 200);
+        }
     }
 
     /**
