@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Auth;
 
+use Hash;
 use App\Classes\Helper;
 use App\Http\Controllers\Controller;
 use App\Rules\ProcessedOTPAndPhone;
