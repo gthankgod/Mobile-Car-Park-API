@@ -18,8 +18,8 @@ class CreateCarParksTable extends Migration
             $table->string('name', 100);
             $table->string('owner', 50);
             $table->string('address');
-            $table->string('tel', 15);
-            $table->bigInteger('fee');
+            $table->string('phone', 20);
+            $table->float('fee');
             $table->string('image_link')->nullable();
             $table->boolean('status')->default(1);
             $table->timestamps();

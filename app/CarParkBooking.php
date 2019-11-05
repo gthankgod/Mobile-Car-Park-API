@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CarPark extends Model
+class CarParkBooking extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,12 +12,10 @@ class CarPark extends Model
      * @var array
      */
     protected $fillable = [
-    	'name',
-    	'owner',
-    	'address',
-    	'phone',
-    	'fee',
-    	'image_link',
+    	'check_in',
+    	'check_out',
+    	'vehicle_no',
+    	'amount',
     	'status'
     ];
 }
