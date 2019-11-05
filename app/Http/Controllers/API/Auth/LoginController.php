@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\API\Auth;
 
-use Hash;
 use App\Classes\Helper;
 use App\Http\Controllers\Controller;
 use App\Rules\ProcessedOTPAndPhone;
@@ -10,6 +9,7 @@ use App\Rules\RegisteredPhonNumber;
 use App\OTP;
 use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
