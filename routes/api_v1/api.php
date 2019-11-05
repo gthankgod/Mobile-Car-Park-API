@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::prefix('auth')->namespace('Auth')->group(function () {
-    Route::post('send-otp', 'OTPController@sendOTP');
-    Route::post('verify-otp', 'OTPController@verifyOTP');
+    Route::post('send-otp', 'OTPController@send');
+    Route::post('verify-otp', 'OTPController@verify');
     Route::prefix('register')->group( function () {
         Route::post('admin', 'RegisterController@admin')->middleware('admin');
         Route::post('partner', 'RegisterController@partner');
@@ -41,7 +41,7 @@ Route::group(['prefix' => 'park', 'middleware' => 'auth'], function () {
     	Route::post('/', 'CarParkController@store');
     	Route::put('{id}', 'CarParkController@update');
     });
-    
+
 	Route::get('/', 'CarParkController@apiIndex');
     Route::get('all', 'CarParkController@index');
     Route::get('{id}', 'CarParkController@show');
