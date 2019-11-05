@@ -35,16 +35,17 @@ Route::prefix('vehicles')->middleware('auth')->group( function () {
 });
 
 Route::group(['prefix' => 'park', 'middleware' => 'auth'], function () {
-	Route::get('/', 'CarParkController@apiIndex');
-    Route::get('all', 'CarParkController@index');
-    Route::get('{id}', 'CarParkController@show');
-
     Route::group(['middleware' => 'admin'], function () {
         Route::get('active', 'CarParkController@showActive');
         Route::get('inactive', 'CarParkController@showInActive');
     	Route::post('/', 'CarParkController@store');
     	Route::put('{id}', 'CarParkController@update');
     });
+    
+	Route::get('/', 'CarParkController@apiIndex');
+    Route::get('all', 'CarParkController@index');
+    Route::get('{id}', 'CarParkController@show');
+
 
     Route::get('/history/{id?}', 'CarParkHistoryController');
     Route::post('/book', 'CarParkBookingController@store');
