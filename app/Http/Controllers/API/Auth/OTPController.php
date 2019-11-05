@@ -9,6 +9,7 @@ use App\Rules\ProcessedOTPAndPhone;
 use App\Rules\RegisteredPhonNumber;
 use App\Rules\UnregisteredPhone;
 use App\OTP;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -16,76 +17,98 @@ use Illuminate\Support\Facades\Log;
 class OTPController
 {
 
-    public function sendOTP(Request $request)
-    {
-        if ($request->has('login')) {
-            return $this->generateOPPForLogin($request);
-        }
-
-        $data = $request->validate([
-            'phone' => ['required', 'string', 'min:11', 'phone:NG', new UnregisteredPhone]
-        ]);
-
-        DB::beginTransaction();
-        try {
-            // Format phone number
-            $data['phone'] = Helper::formatPhoneNumber($data['phone']);
-
-            $data['otp'] = $this->generateAndSendOTP($data['phone']);
-
-            OTP::updateOrCreate(['phone' => $data['phone']], ['otp' => $data['otp']]);
-
-            DB::commit();
-
-            return response()->json(['message' => 'An OTP has been snt to your phone number.']);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::critical("========== ERROR SENDING OTP ========== \n" . $e->getMessage() . "\n" . $e->getTraceAsString());
-
-            return response()->json(['message' => 'An error was encountered. Try again'], 501);
-        }
-
-
-    }
-
-    public function verifyOTP(Request $request)
+    public function send(Request $request)
     {
         $request->validate([
-            'phone' => ['required', 'phone:NG'],
-            'otp' => ['required', new ProcessedOTPAndPhone($request)],
+            'phone' => ['required', 'string', 'phone:NG'],
         ]);
 
-        // ProcessedOTPAndPhone class verifies that the OTP is valid
-        // a validation error will be thrown otherwise
+        $phone = Helper::formatPhoneNumber($request->input('phone'));
 
-        return response()->json(['message' => 'OTP verified.']);
-    }
+        $otp = $this->generateAndSendOTP($phone);
 
+        $message = "OTP has been sent to {$phone}";
 
-    private function generateOPPForLogin(Request $request)
-    {
-        $request->validate([
-            'phone' => ['required', 'string', new RegisteredPhonNumber]
-        ]);
+        $user = User::query()->where('phone', $phone)->where('role', 'user')->first();
 
-        $phone = Helper::formatPhoneNumber($request->phone);
-
-        DB::beginTransaction();
-        try {
-            $otp = $this->generateAndSendOTP($phone);
-
-            // Save the OTP
+        if (! $user) {
+            // The number is not registered
             OTP::query()->updateOrCreate(['phone' => $phone], ['otp' => $otp]);
-
-            DB::commit();
-
-            return response()->json(['message' => 'An OTP has been sent to your phone number.']);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::critical("========== Error Sending OTP ========== \n" . $e->getMessage() . "\n" . $e->getTraceAsString());
-
-            return response()->json(['message' => "An error was encountered."], 501);
+            return response()->json([
+                'message' => $message,
+                'registered' => false,
+            ]);
         }
+
+
+        // Phone is registered
+        $user->update(['otp' => $otp]);
+
+        return response()->json([
+            'message' => $message,
+            'registered' => true,
+        ]);
+    }
+
+    public function verify(Request $request)
+    {
+        $data = $request->validate([
+            'phone' => ['required', 'string', 'phone:NG'],
+            'otp' => ['required', 'string']
+        ]);
+
+        $phone = Helper::formatPhoneNumber($data['phone']);
+
+        // Check if phone number is registered
+        $user = User::query()->where('phone', $phone)->where('role', 'user')->first();
+        if (! $user) {
+            // Number is not registered
+            return $this->handleUnregisteredUser($phone, $data['otp']);
+        }
+
+        if ($user->otp === $data['otp']) {
+            $token = auth()->login($user);
+
+            if (! $token) {
+                // Should not happen, but check if token has not been created
+                return response()->json(['message' => "An error was encountered"], 500);
+            }
+
+            return response()->json([
+                'massage' => "OTP is valid, login successful.",
+                "registered" => true,
+                'data' => [
+                    'access_token' => $token,
+                    'expires_in' => auth()->factory()->getTTL() * 60
+                ],
+            ]);
+        }
+
+        //OTP is not valid
+        return $this->invalidOTPResponse(true);
+    }
+
+    private function handleUnregisteredUser(string $phone, string $otp)
+    {
+        // Check that the OTP is correct
+        if (OTP::query()->where('phone', $phone)->where('otp', $otp)->exists()) {
+            return response()->json([
+                'message' => "OTP is valid",
+                "registered" => false,
+                "data" => null,
+            ]);
+        }
+
+        // OTP is not valid
+        return $this->invalidOTPResponse(false);
+    }
+
+    private function invalidOTPResponse(bool $registered)
+    {
+        return response()->json([
+            'message' => "OTP is not correct",
+            "registered" => $registered,
+        ], 400);
     }
 
     private function generateAndSendOTP(string $phone)

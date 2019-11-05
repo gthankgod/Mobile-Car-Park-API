@@ -24,16 +24,27 @@ class RegisterController
            'first_name' => ['required', 'string'],
            'last_name' => ['required', 'string'],
            'email' => ['nullable', 'email', 'unique:users'],
-           'otp' => ['required', new ProcessedOTPAndPhone($request)]
+           'otp' => ['required', 'string']
        ]);
 
         DB::beginTransaction();
        try {
 
             $data['phone'] = $this->formatPhoneNumber($data['phone']);
-            $data['password'] = Hash::make(Str::random(8));
 
-           $temp_user = OTP::where('phone', $data['phone'])->first();
+            // Confirm OTP
+           $otp_record = OTP::query()->where('phone', $data['phone'])->first();
+           if (! $otp_record) {
+               return response()->json([
+                   'message' => "The phone number must be verified before registration.",
+               ], 400);
+           } elseif ($data['otp'] != $otp_record->otp) {
+               return response()->json([
+                   'message' => "The OTP is not valid",
+               ], 400);
+           }
+
+            $data['password'] = Hash::make(Str::random(8));
 
             $user = $this->createUser($data);
 
@@ -43,7 +54,7 @@ class RegisterController
                 return response()->json(['message' => 'An error was encountered.'], 501);
             }
 
-            $temp_user->delete();
+            $otp_record->delete();
 
            event(new Registered($user));
 
