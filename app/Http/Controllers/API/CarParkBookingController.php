@@ -58,7 +58,7 @@ class CarParkBookingController extends Controller
         	$booking->check_in 		= $request->check_in;
         	$booking->check_out 	= $request->check_out;
         	$booking->vehicle_no 	= $request->vehicle_no;
-        	$booking->amount 		= $parking_space->amount;
+        	$booking->amount 		= $parking_space->fee;
         	$booking->status 		= 1;
 
         	if (!$booking->save()) {
@@ -71,8 +71,8 @@ class CarParkBookingController extends Controller
         	$history->car_park_booking_id	= $booking->id;
         	$history->history_count			= 1;
         	$history->user_id 				= $booking->user_id;
-        	$history->vehicle_no 			= $request->vehicle_no;
-        	$history->amount 				= $request->amount;
+        	$history->vehicle_no 			= $booking->vehicle_no;
+        	$history->amount 				= $booking->amount;
 
         	if(!$history->save()) {
         		throw new Exception;
@@ -135,7 +135,7 @@ class CarParkBookingController extends Controller
 		        	$booking->check_in 		= $request->check_in ?? $booking->check_in;
 		        	$booking->check_out 	= $request->check_out ?? $booking->check_out;
 		        	$booking->vehicle_no 	= $request->vehicle_no ?? $booking->vehicle_no;
-		        	$booking->amount 		= $request->amount ?? $booking->amount;
+		        	$booking->amount 		= CarPark::find($booking->car_park_id)->pluck('fee')->first();
 		        	$booking->status 		= $request->status ?? $booking->status;
 
 		        	if (!$booking->save()) {
