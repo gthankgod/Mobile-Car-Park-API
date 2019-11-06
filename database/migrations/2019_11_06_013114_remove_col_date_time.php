@@ -15,7 +15,7 @@ class RemoveColDateTime extends Migration
     {
         Schema::table('car_park_histories', function (Blueprint $table) {
 
-            if (Schema::hasColumn('date_time')) {
+            if (Schema::hasColumn('car_park_histories', 'date_time')) {
                 $table->dropColumn('date_time');
             }
         });
