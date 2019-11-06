@@ -34,12 +34,13 @@ Route::prefix('vehicles')->middleware('auth')->group( function () {
     Route::delete('{id}', 'VehiclesController@delete');
 });
 
-Route::group(['prefix' => 'park', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'park', 'middleware' => 'admin'], function () {
     Route::group(['middleware' => 'admin'], function () {
         Route::get('active', 'CarParkController@showActive');
         Route::get('inactive', 'CarParkController@showInActive');
     	Route::post('/', 'CarParkController@store');
     	Route::put('{id}', 'CarParkController@update');
+        Route::get('/history', 'CarParkHistoryController');
     });
 
     Route::get('/history/{id?}', 'CarParkHistoryController');
