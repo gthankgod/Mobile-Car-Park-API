@@ -58,7 +58,7 @@ class CarParkBookingController extends Controller
         	$booking->check_in 		= $request->check_in;
         	$booking->check_out 	= $request->check_out;
         	$booking->vehicle_no 	= $request->vehicle_no;
-        	$booking->amount 		= $request->amount;
+        	$booking->amount 		= $parking_space->amount;
         	$booking->status 		= 1;
 
         	if (!$booking->save()) {
