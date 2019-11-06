@@ -143,7 +143,7 @@ class CarParkController extends Controller
         return response()->json([
             'status' => true,
             'count'  => $parking_spaces->count(),
-            'spaces' => $parking_spaces
+            'result' => $parking_spaces
         ], 200);
     }
 
@@ -164,7 +164,7 @@ class CarParkController extends Controller
         // send response with the parking spaces details
         return response()->json([
             'status' => true,
-            'spaces' => $parking_spaces
+            'result' => $parking_spaces
         ], 200);
     }
 
@@ -187,7 +187,7 @@ class CarParkController extends Controller
             // Output car park details
             return response()->json([
                 'status'  => true,
-                'details' => $car_park
+                'result' => $car_park
             ], 200);
         }
     }
@@ -205,7 +205,7 @@ class CarParkController extends Controller
         return response()->json([
             'count'   => $car_park->count(),
             'status'  => true,
-            'details' => $car_park
+            'result' => $car_park
         ], 200);
     }
 
@@ -222,7 +222,7 @@ class CarParkController extends Controller
         return response()->json([
             'count'   => $car_park->count(),
             'status'  => true,
-            'details' => $car_park
+            'result' => $car_park
         ], 200);
     }
 }
