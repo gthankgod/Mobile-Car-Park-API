@@ -4,11 +4,9 @@ namespace App\Http\Controllers\API\Auth;
 
 use App\Classes\Helper;
 use App\Http\Controllers\Controller;
-use App\Rules\ProcessedOTPAndPhone;
 use App\Rules\RegisteredPhonNumber;
 use App\OTP;
 use App\User;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
@@ -23,22 +21,28 @@ class LoginController extends Controller
    {
        $data = $request->validate([
            'phone' => ['required', new RegisteredPhonNumber],
-           'otp' => ['required', new ProcessedOTPAndPhone($request)]
+           'password' => ['required', 'string'],
        ]);
 
        $data['phone'] = Helper::formatPhoneNumber($data['phone']);
 
        $user = User::where('phone', $data['phone'])->where('role', 'user')->first();
 
+       // Check password
+       if (
+           ! $user
+            || !Hash::check($data['password'], $user->password)
+       ) {
+           return  response()->json([
+               'message' => "Invalid phone number/password combination.",
+           ], 400);
+       }
+
        $token = auth()->login($user);
 
        if (! $token) {
            return response()->json(['message' => 'An error ws encountered.'], 500);
        }
-
-       $temp_user = OTP::where('phone', $data['phone'])->first();
-
-       $temp_user->delete();
 
         return $this->createResponse($token);
    }
