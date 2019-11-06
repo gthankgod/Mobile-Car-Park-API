@@ -8,6 +8,7 @@ use App\Classes\Helper;;
 use App\OTP;
 use App\Rules\UnregisteredPhone;
 use App\User;
+use Emmannl\Sms\SmartSms\SmartSmsSolutions;
 use Illuminate\Http\Request;
 
 class OTPController
@@ -25,7 +26,7 @@ class OTPController
 
         $message = "OTP has been sent to {$phone}";
 
-        $user = User::query()->where('phone', $phone)->where('role', 'user')->first();
+//        $user = User::query()->where('phone', $phone)->where('role', 'user')->first();
 
 
         OTP::query()->updateOrCreate(['phone' => $phone], ['otp' => $otp]);
@@ -76,9 +77,12 @@ class OTPController
         } catch (\Exception $e) {
            $otp = rand(1000, 9999);
         }
-        // TODO Send ana SMS to the phone number
-        // for now we'll use a static OTP
-        $otp = 1234;
+
+        $message = "Hello, use {$otp} to continue your registration at CarPark HNG. Tank You.";
+
+        $sms = new SmartSmsSolutions(config('services.smartSMS.kep'), 'CarPark HNG');
+        $sms->sendMessage($phone, $message);
+
 
         return $otp;
     }
