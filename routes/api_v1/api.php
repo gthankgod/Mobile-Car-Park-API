@@ -42,11 +42,11 @@ Route::group(['prefix' => 'park', 'middleware' => 'auth'], function () {
     	Route::put('{id}', 'CarParkController@update');
     });
 
+    Route::get('/history/{id?}', 'CarParkHistoryController');
+    Route::post('/book/{id}', 'CarParkBookingController');
+    Route::put('/book/{id}', 'CarParkBookingController@update');
+
 	Route::get('/', 'CarParkController@apiIndex');
     Route::get('all', 'CarParkController@index');
     Route::get('{id}', 'CarParkController@show');
-
-
-    Route::get('/history/{id?}', 'CarParkHistoryController');
-    Route::post('/book', 'CarParkBookingController@store');
 });
