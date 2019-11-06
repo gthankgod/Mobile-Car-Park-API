@@ -122,6 +122,7 @@ class CarParkController extends Controller
         }
         else {
             return response()->json([
+                'status'  => false,
                 'message' => 'The record was not found!'
             ], 404);
         }
@@ -178,7 +179,7 @@ class CarParkController extends Controller
 
         if (!$car_park) {
             return response()->json([
-                'status'  => true,
+                'status'  => false,
                 'message' => 'The Car Park cannot be found'
             ], 404);
         }
