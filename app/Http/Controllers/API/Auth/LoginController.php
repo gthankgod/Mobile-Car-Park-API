@@ -44,7 +44,7 @@ class LoginController extends Controller
            return response()->json(['message' => 'An error ws encountered.'], 500);
        }
 
-        return $this->createResponse($token);
+        return $this->createResponse($token, $user);
    }
 
     /**
@@ -73,21 +73,23 @@ class LoginController extends Controller
            return response()->json(['message' => 'An error was encountered.'], 500);
        }
 
-       return $this->createResponse($token);
+       return $this->createResponse($token, $user);
    }
 
     /**
      * Create a JSON response for successful login
      * @param string $token
+     * @param User $user
      * @return \Illuminate\Http\JsonResponse
      */
-   private function createResponse(string $token)
+   private function createResponse(string $token, User $user)
    {
        return response()->json([
            'message' => 'Login successful.',
            'data' => [
                'access_token' => $token,
-               'expires_in' => auth()->factory()->getTTL() * 60
+               'expires_in' => auth()->factory()->getTTL() * 60,
+               'user' => $user,
            ]
        ]);
    }
