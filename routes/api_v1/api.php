@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::prefix('auth')->namespace('Auth')->group(function () {
-    Route::post('send-otp', 'OTPController@send');
+    Route::post('phone-registration-status', 'RegistrationStatusController@withPhone');
+    Route::post('request-otp', 'OTPController@send');
     Route::post('verify-otp', 'OTPController@verify');
     Route::prefix('register')->group( function () {
         Route::post('admin', 'RegisterController@admin')->middleware('admin');
@@ -18,6 +19,7 @@ Route::prefix('auth')->namespace('Auth')->group(function () {
     Route::prefix('login')->group( function () {
         Route::post('/', 'LoginController@adminAndPartner');
         Route::post('user', 'LoginController@user');
+        Route::post('facebook', 'FacebookLoginController');
     });
 });
 

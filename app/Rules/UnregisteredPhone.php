@@ -30,6 +30,6 @@ class UnregisteredPhone implements Rule
      */
     public function message()
     {
-        return 'The phone number has already been taken.';
+        return 'The :attribute number has already been taken.';
     }
 }

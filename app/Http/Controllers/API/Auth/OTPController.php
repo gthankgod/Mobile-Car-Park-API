@@ -62,7 +62,7 @@ class OTPController
         $record->update();
 
         return response()->json([
-            'message => "OTP is valid',
+            'message' => "OTP is valid",
         ]);
 
 

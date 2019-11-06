@@ -11,6 +11,7 @@
         "php": "^7.2",
         "ext-json": "*",
         "doctrine/dbal": "^2.9",
+        "facebook/graph-sdk": "^5.7",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.4",
         "laravel/framework": "^6.2",

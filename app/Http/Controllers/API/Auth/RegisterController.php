@@ -4,14 +4,12 @@ namespace App\Http\Controllers\API\Auth;
 
 use App\Classes\Helper;
 use App\Rules\UnregisteredPhone;
-use App\Rules\ProcessedOTPAndPhone;
 use App\OTP;
 use App\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class RegisterController
@@ -23,8 +21,8 @@ class RegisterController
            'phone' => ['required', 'phone:NG', new UnregisteredPhone],
            'first_name' => ['required', 'string'],
            'last_name' => ['required', 'string'],
-           'email' => ['nullable', 'email', 'unique:users'],
-           'otp' => ['required', 'string']
+           'email' => ['required', 'email', 'unique:users'],
+           'password' => ['required', 'string', 'min:8', 'max:100']
        ]);
 
         DB::beginTransaction();
@@ -38,13 +36,13 @@ class RegisterController
                return response()->json([
                    'message' => "The phone number must be verified before registration.",
                ], 400);
-           } elseif ($data['otp'] != $otp_record->otp) {
+           } elseif (!$otp_record->verified) {
                return response()->json([
-                   'message' => "The OTP is not valid",
+                   'message' => "Verify the OTP for {$data['phone']} before attempting to register the number.  ",
                ], 400);
            }
 
-            $data['password'] = Hash::make(Str::random(8));
+            $data['password'] = Hash::make( $data['password']);
 
             $user = $this->createUser($data);
 
