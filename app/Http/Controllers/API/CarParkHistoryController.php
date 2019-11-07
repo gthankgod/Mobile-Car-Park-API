@@ -29,22 +29,29 @@ class CarParkHistoryController extends Controller
      */
     public function __invoke($id = null)
     {
-    	// Get the user requesting for the history
-    	$user_id = $id ?? $this->user->id;
+        // Get the user requesting for the history
+        $user_id = $id ?? $this->user->id;
 
-    	// Check if the user has any history data
-    	$history = CarParkHistory::whereUserId($user_id)->get();
+        // Check if the user has any history data
+        $history = CarParkHistory::whereUserId($user_id)->get();
 
-        // dd($history);
-    	if (!$history) {
-			return response()->json(['message' => 'No history data for the user found!'], 404);
-    	}
+        if ($history->isEmpty()) {
+            return response()->json(['message' => 'No history data for the user found!'], 404);
+        }
         else {
             if (is_null($id)) {
-            	$user_histoy = CarParkBooking::join(
-            		'car_park_histories', 'car_park_histories.car_park_booking_id', 'car_park_bookings.id'
-            	)->join('car_parks', 'car_parks.id', 'car_park_bookings.car_park_id')
-            	->get();
+                // ensure it can only be an admin
+                if ($this->user->role != 'admin')
+                    return response([
+                        'message' => 'Forbidden: Insufficient privileges',
+                        'status' => 'false'
+                    ], 403);
+                else {
+                    $user_histoy = CarParkBooking::join(
+                        'car_park_histories', 'car_park_histories.car_park_booking_id', 'car_park_bookings.id'
+                    )->join('car_parks', 'car_parks.id', 'car_park_bookings.car_park_id')
+                    ->get();
+                }
             } else {
                 $user_histoy = CarParkBooking::join(
                     'car_park_histories', 'car_park_histories.car_park_booking_id', 'car_park_bookings.id'
@@ -54,11 +61,11 @@ class CarParkHistoryController extends Controller
                 ->get();
             }
 
-        	// Send the history data for consumption
+            // Send the history data for consumption
             return response()->json([
-            	'status' => true,
-            	'count'	 => $user_histoy->count(),
-            	'result' => $user_histoy,
+                'status' => true,
+                'count'  => $user_histoy->count(),
+                'result' => $user_histoy,
             ], 200);
         }
     }

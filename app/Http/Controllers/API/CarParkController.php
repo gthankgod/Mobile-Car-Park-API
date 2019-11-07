@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Exeception;
 use App\CarPark;
+use App\User;
 use App\Classes\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -53,6 +54,8 @@ class CarParkController extends Controller
         $park->phone      = $request->phone;
         $park->fee        = $request->fee;
         $park->image_link = $request->image_link;
+        $park->user_id    = $this->user->id;
+        $park->status     = 1;
 
         // Save to db
         if ($park->save()) {
@@ -80,9 +83,8 @@ class CarParkController extends Controller
         CarPark $update,
         Request $request
     ){
-        // Get the intended resource
-        $update = $update->find($id);
-
+        // Get the car park if the admin user is assigned to it
+        $update = $this->user->parks()->find($id);
 
         // Proceed to update if record exists
         if (!is_null($update)) {
@@ -123,7 +125,8 @@ class CarParkController extends Controller
         else {
             return response()->json([
                 'status'  => false,
-                'message' => 'The record was not found!'
+                'message' => 'Unknown error',
+                'hint'    => 'Failed due to inexistent record or insufficient write permission on the record'
             ], 404);
         }
     }
@@ -193,7 +196,7 @@ class CarParkController extends Controller
     }
 
     /**
-     * Get all active car parks
+     * Get all activated car parks
      *
      */
     public function showActive()
@@ -201,28 +204,201 @@ class CarParkController extends Controller
         // Get the intended resource
         $car_park = CarPark::whereStatus(1)->get();
 
-        // Output car park details
-        return response()->json([
-            'count'   => $car_park->count(),
-            'status'  => true,
-            'result' => $car_park
-        ], 200);
+        if (!is_null($car_park)) {
+            // Output car park details
+            return response()->json([
+                'count'   => $car_park->count(),
+                'status'  => true,
+                'result'  => $car_park
+            ], 200);
+        }
+        else {
+            return response()->json([
+                'status'  => false,
+                'message' => 'There are no active car parks'
+            ], 404);
+        }
+    }
+
+    /**
+     * Get all activated car parks assigned to an admin
+     *
+     */
+    public function showAdminActive(CarPark $park)
+    {
+        // Get the intended resource
+        $car_park = $this->user->parks()->whereStatus(1)->get();
+
+        if ($car_park->isNotEmpty()) {
+            // Output car park details
+            return response()->json([
+                'count'   => $car_park->count(),
+                'status'  => true,
+                'result'  => $car_park
+            ], 200);
+        }
+        else {
+            return response()->json([
+                'status'  => false,
+                'message' => 'There are no active car parks'
+            ], 404);
+        }
     }
 
     /**
      * Get all in-active car parks
      *
      */
-    public function showInActive()
+    public function showSuperInActive()
     {
         // Get the intended resource
         $car_park = CarPark::whereStatus(0)->get();    
 
-        // Output car park details
-        return response()->json([
-            'count'   => $car_park->count(),
-            'status'  => true,
-            'result' => $car_park
-        ], 200);
+        if ($car_park->isNotEmpty()) {
+            // Output car park details
+            return response()->json([
+                'count'   => $car_park->count(),
+                'status'  => true,
+                'result'  => $car_park
+            ], 200);
+        }
+        else {
+            return response()->json([
+                'status'  => false,
+                'message' => 'There are no in-active car parks'
+            ], 404);
+        }
+    }
+
+    /**
+     * Get all deactivated admin's car parks
+     *
+     */
+    public function showInActive(CarPark $park)
+    {
+        // Get the intended resource
+        $car_park = $this->user->parks()->whereStatus(0)->get();
+
+        if ($car_park->isNotEmpty()) {
+            // Output car park details
+            return response()->json([
+                'count'   => $car_park->count(),
+                'status'  => true,
+                'result'  => $car_park
+            ], 200);
+        }
+        else {
+            return response()->json([
+                'status'  => false,
+                'message' => 'There are no in-active car parks'
+            ], 404);
+        }
+    }
+
+    /**
+     * Activate a car park
+     *
+     */
+    public function activate($park_id, CarPark $park)
+    {
+        // Get the intended resource
+        $car_park = $this->user->parks()->find($park_id);
+
+        if (!is_null($car_park)) {
+            // Get the status of the park
+            $status = $car_park->status;
+
+            if($status == 1) {
+                return response()->json([
+                    'status'  => false,
+                    'message' => 'The car park is currently active'
+                ], 409);
+            }
+            else {
+                $car_park->status = 1;
+
+                if ($car_park->save()) {
+                    return response()->json([
+                        'status'  => true,
+                        'message' => 'The car park is now activated'
+                    ], 200);
+                }
+            }
+        }
+        else {
+            return response()->json([
+                'status'  => false,
+                'message' => 'You are not assigned to this car park as an admin user'
+            ], 403);
+        }
+    }
+
+    /**
+     * Deactivate a car park
+     *
+     */
+    public function deactivate($park_id, CarPark $park)
+    {
+        // Get the intended resource
+        $car_park = $this->user->parks()->find($park_id);
+
+        if (!is_null($car_park)) {
+            // Get the status of the park
+            $status = $car_park->status;
+
+            if ($status == 0) {
+                return response()->json([
+                    'status'  => false,
+                    'message' => 'The car park is already deactivated'
+                ], 409);
+            }
+            else {
+                $car_park->status = 0;
+
+                if ($car_park->save()) {
+                    return response()->json([
+                        'status'  => true,
+                        'message' => 'The car park has been deactivated'
+                    ], 200);
+                }
+            }
+        }
+        else {
+            return response()->json([
+                'status'  => false,
+                'message' => 'You are not assigned to this car park as an admin user'
+            ], 403);
+        }
+    }
+
+    /**
+     * Delete a car park
+     *
+     */
+    public function delete($id, CarPark $park)
+    {
+        // Get the intended resource
+        $car_park = $this->user->parks()->find($id);
+
+        if (!is_null($car_park)) {
+            if ($car_park->delete()) {
+                return response()->json([
+                    'status'  => true,
+                    'message' => 'The car park has been deleted'
+                ], 200);
+            }
+            else {
+                return response()->json([
+                    'status'  => false,
+                    'message' => 'The car park could not be deleted at this moment'
+                ], 501);
+            }
+        }
+        else {
+            return response()->json([
+                'status'  => false,
+                'message' => 'You are not assigned to this park'
+            ], 404);
+        }
     }
 }
