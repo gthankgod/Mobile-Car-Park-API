@@ -17,10 +17,13 @@ class AdminUsersController
 
     public function index()
     {
-        $users = User::query()->whereNotIn('id', [$this->user->id])->paginate();
+        $users = User::query()->whereNotIn('id', [$this->user->id])->get();
 
-        return response()->json($users);
+        return response()->json(['data' => $users]);
     }
 
-
+    public function show(User $user_id)
+    {
+        return response()->json(['data' => $user_id]);
+    }
 }
