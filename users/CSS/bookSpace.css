@@ -1,0 +1,318 @@
+  @import url('https://fonts.googleapis.com/css?family=Poppins');
+        *{
+            box-sizing: border-box;
+        }
+        body {
+            overflow-x: hidden;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .f-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+
+        }
+
+        nav {
+            padding: 0 2em;
+        }
+
+        .map {
+            width: 100vw;
+            height: 100vh;
+            min-height: 100vh;
+        }
+
+        .park-container {
+            box-sizing: content-box;
+            position: fixed;
+            width: 100%;
+            top: 42.5%;
+            
+
+        }
+       
+
+
+        div.park {
+            display: flex;
+            box-sizing: border-box;
+            padding: 2em 1%;
+            background: white;
+            width: 95%;
+            height: 100%;
+            align-items: center;
+            margin: 0 auto;
+            border: 1px solid #DADADA;
+            box-shadow: 0px 4px 4px rgba(208, 207, 207, 0.25);
+            justify-content: space-around;
+
+        }
+        div.item2::after{
+            display: flex;
+            box-sizing: border-box;
+        }
+        div.park:after, div.item2::after {
+             content: "";
+                display: table;
+             clear: both;
+            }
+         div.item3{
+                width: 10%;
+            }
+            div.item1{
+                margin-right: 5px;
+                width: 15%;
+                padding: 30px auto ;
+                justify-content: space-between;
+            }
+            div.item2{
+                margin-right: 10px;
+                width: 75%;
+            }
+            div#where-to-park{
+                width: 30%;
+            }
+            div#park-time{
+                width: 70%;
+            }
+        
+
+        .park-children {
+            display: flex;
+            padding: 0.5em 1em;
+            border: 1px solid #C4C4C4;
+            border-radius: 6px;
+            align-items: center;
+        }
+
+        .save-searches {
+            background: #3684EB;
+            border-radius: 5px;
+            border: 0;
+
+            color: #fff;
+        }
+
+        #where-to-park {
+            display: flex;
+            height: 100%;
+            padding: 0.5em 1em;
+            border: 1px solid #C4C4C4;
+            border-top-right-radius: 0px;
+            border-bottom-right-radius: 0px;
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+            justify-content: space-between;
+
+
+        }
+        input#TIME1, input#TIME2{
+            background-image: url("https://res.cloudinary.com/charlene04/image/upload/v1572793410/images_4_beghme.png");
+            background-size: 18%;
+            background-repeat: no-repeat;
+            background-position: right;
+        }
+
+        #park-time {
+            display: flex;
+            height: 100%;
+            padding: 0.5em 1em;
+            border: 1px solid #C4C4C4;
+            border-top-left-radius: 0px;
+            border-bottom-left-radius: 0px;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+
+        .park-children:nth-child(2) {
+            border: 0px;
+        }
+
+        p {
+            margin-bottom: 0;
+        }
+
+      button{
+          padding: 6.5px;
+    
+        }
+
+
+       
+
+        #save:hover {
+            background-color: rgb(0, 50, 116);
+        }
+        input[type="date"], input[type="time"]{
+            border: none;
+            outline: none;
+        }
+        input[type="date"], input[type="time"]{
+            background: #fff;
+        }
+        input[type="date"]::-webkit-inner-spin-button{
+            display: none;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator{
+            opacity: 0;
+        }
+
+        input#DATE1:focus, input#TIME1:focus{
+            border: none;
+            outline: none;
+        }
+
+        
+
+        @media screen and (max-height:450px){
+            .park-container {
+
+position: absolute;
+width: 100%;
+top: 25vh;
+
+}
+        }
+        @media screen and (max-width: 1300px){
+            div.park{
+                display: table;
+            }
+            div.item1,div.item2{
+                width: 100%;
+                margin: 5px auto;
+            }
+            div.item1{
+                margin-top: 0;
+            }
+        
+
+        }
+        @media screen and (max-width: 1025px){
+            div.item2{
+                display: table;
+            }
+            div#where-to-park,div#park-time{
+                width: 100%;
+                margin: 5px auto;
+            }
+            div#park-time{
+                margin-top: 10px;
+                border-top-left-radius: 6px;
+                border-bottom-left-radius: 6px;
+            }
+            div#where-to-park{
+                border-top-right-radius: 6px;
+                border-bottom-right-radius: 6px;
+            }
+        
+
+        }
+        @media screen and (max-width: 700px) {
+            img.calendar-image{
+                display: none;
+            }
+            input#DATE1, input#DATE2{
+            background-image: url("https://res.cloudinary.com/dqcsk8rsc/image/upload/v1572470481/calendar_1_mhhkfz.svg");
+            background-size: 18%;
+            background-repeat: no-repeat;
+            background-position: right;
+        }
+        
+            div.item2{
+                display: flex;
+            }
+            div.park{
+                display: flex;
+            }
+            div#park-time{
+                display: flex;
+                border: none;
+                margin: 0;
+                padding: 0;
+            }
+            [time1], [time2]{
+                padding: 8px;
+                margin-top: 5px;
+                width: 100%;
+                border-radius:6px ;
+                border: 1px solid #C4C4C4;
+                height: inherit;
+            }
+            [arrow]{
+                border: none;
+            }
+            div.item1, div#where-to-park{
+                justify-content: start;
+            }
+            .park-container {
+                top: 30%;
+               
+            }
+
+            .park {
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: space-around;
+                padding: 1em 1em;
+            }
+
+            .park-children {
+                width: 100%;
+            }
+
+            .park-children:nth-child(2) {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            #park-time {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            #where-to-park {
+                border-radius: 6px;
+                width: 100%;
+            }
+
+            #park-time {
+                width: 100%;
+                border-radius: 6px;
+            }
+            div.item1, div.item2,  div#where-to-park{
+                width: 100%;
+                margin: 5px auto;
+            }
+            div.item3{
+                width: 100%;
+                
+            }
+            button{
+                width: inherit;
+            }
+
+            #arrow {
+                display: block;
+                margin: 0 auto;
+                transform: rotate(90deg);
+            }
+
+            .park-time-flex-child {
+                justify-content: center;
+            }
+            div.item1{
+                margin-top: 0;
+            }
+
+
+        }
