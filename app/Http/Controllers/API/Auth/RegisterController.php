@@ -58,7 +58,7 @@ class RegisterController
 
            DB::commit();
 
-          return $this->createResponse($token);
+          return $this->createResponse($token, $user);
 
        } catch (\Exception $e) {
 
@@ -90,7 +90,7 @@ class RegisterController
             return response()->json(['message' => 'An error was encountered.'], 501);
         }
 
-        return $this->createResponse($token);
+        return $this->createResponse($token, $user);
     }
 
     public function admin(Request $request)
@@ -130,13 +130,14 @@ class RegisterController
         return Helper::formatPhoneNumber($phone);
     }
 
-    private function createResponse(string $token)
+    private function createResponse(string $token, User $user)
     {
         return response()->json([
             'message' => 'Account has been created.',
             'data' => [
                 'access_token' => $token,
                 'expires_in' => auth()->factory()->getTTL() * 60,
+                'user' => $user,
             ]
         ], 201);
     }

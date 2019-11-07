@@ -78,7 +78,7 @@ class OTPController
            $otp = rand(1000, 9999);
         }
 
-        $message = "Hello, use {$otp} to continue your registration at CarPark HNG. Tank You.";
+        $message = "DO NOT SHARE.{$otp} is your One Time Pin at CarPark HNG. Thank You.";
 
         $sms = new SmartSmsSolutions(config('services.smartSMS.kep'), 'CarPark HNG');
         $sms->sendMessage($phone, $message);
