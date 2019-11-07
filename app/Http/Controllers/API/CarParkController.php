@@ -44,7 +44,7 @@ class CarParkController extends Controller
             'owner'       => ['bail', 'required', 'string',],
             'address'     => ['bail', 'required', 'string',],
             'phone'       => ['bail', 'required', 'string', 'min:11', 'phone:NG'],
-            'fee'         => ['bail', 'required', 'integer', 'min:0'],
+            'fee'         => ['bail', 'required', 'between:0,99.99', 'min:0'],
             'image_link'  => ['bail', 'string', 'nullable']
         ]);
 

@@ -70,31 +70,27 @@ class CarParkBookingController extends Controller
 	            DB::commit();
 
                 // Prepare a formated response
-                $booking = [
-                    'booking_id'    => $booking->id,
-                    'user_id'       => $booking->user_id,
-                    'check_in'      => $booking->check_in,
-                    'check_out'     => $booking->check_out,
-                    'vehicle_no'    => $booking->vehicle_no,
-                    'amount'        => $booking->amount,
-                    'created_at'    => $booking->created_at,
-                ];
-
-                $parking_space = [
-                    'name'      => $parking_space->name,
-                    'owner'     => $parking_space->owner,
-                    'address'   => $parking_space->address,
-                    'phone'     => $parking_space->phone,
-                    'image_link'=> $parking_space->image_link,
-                    'status'    => $parking_space->status == 1 ? "activated" : "deactivated",
+                $result = [
+                    'booking_id'              => $booking->id,
+                    'user_id'                 => $booking->user_id,
+                    'check_in'                => $booking->check_in,
+                    'check_out'               => $booking->check_out,
+                    'vehicle_no'              => $booking->vehicle_no,
+                    'amount'                  => $booking->amount,
+                    'created_at'              => $booking->created_at,
+                    'parking_space_name'      => $parking_space->name,
+                    'parking_space_owner'     => $parking_space->owner,
+                    'parking_space_address'   => $parking_space->address,
+                    'parking_space_phone'     => $parking_space->phone,
+                    'parking_space_image_link'=> $parking_space->image_link,
+                    'parking_space_status'    => $parking_space->status == 1 ? "activated" : "deactivated",
                 ];
 
 	            // Send response
 	            return response()->json([
 	                'status'  => true,
 	                'message' => 'Car Park has been booked successfully',
-	                'result'  => $booking,
-                    'parking_space' => $parking_space
+	                'result'  => $result
 	            ], 200);
 	        }
         } catch(Exception $e) {
@@ -218,7 +214,7 @@ class CarParkBookingController extends Controller
         else {
             return response()->json([
                 'status'  => false,
-                'message' => 'There were no bookings found for a car park'
+                'message' => 'No bookings found for the car park'
             ], 404);
         }
     }
@@ -254,7 +250,7 @@ class CarParkBookingController extends Controller
             else {
                 return response()->json([
                     'status'  => false,
-                    'message' => 'There were no bookings found for the car park'
+                    'message' => 'No bookings found for the car park'
                 ], 404);
             }
         }

@@ -39,6 +39,7 @@ Route::prefix('vehicles')->middleware('auth')->group( function () {
 
 Route::group(['prefix' => 'park', 'middleware' => 'isuser'], function () {
     Route::group(['prefix' => 'sa', 'middleware' => 'superAdmin'], function () {
+        Route::get('/', function(){});
         Route::get('inactive', 'CarParkController@showSuperInActive');
         Route::get('bookings', 'CarParkBookingController@showSuperBookings');
         Route::get('bookings/current', 'CarParkBookingController@superCurrent');
