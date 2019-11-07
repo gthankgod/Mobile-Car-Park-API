@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Car Park Search</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css"
+    /> 
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="CSS/car-park-search.css" />
+
+  </head>
+  <body>
+ 
+
+    <nav class="navbar navbar-expand-sm navbar-light bg-white">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">
+          <img
+            src="https://res.cloudinary.com/dekillerj/image/upload/v1572282259/CarPark_Logo.svg"
+            style="width:120px;"
+            alt="Car-Park logo"
+          />
+        </a>
+        <button
+          class="navbar-toggler"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="selectSpot.html"
+                >My Parking Space</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="bookSpace.html">Schedule</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Femi
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                </div>
+              </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid section-search">
+      <div class="container search-bar mt-2">
+        <div class="form-group formGroup">
+          <input type="text" class="search-input" placeholder="Lekki Gardens" />
+          <div class="search">
+            <span><i class="fa fa-calendar"></i></span>
+            <input
+              type="text"
+              class="datetimerange range"
+              value="12/31/2017 - 01/31/2018"
+            />
+          </div>
+          <button type="button" class="btn btn-primary search-btn">
+              Search
+            </button>
+        </div>
+       
+      </div>
+      </div>
+    </div>
+
+    <div class="container-fluid section-list">
+      <div class="row">
+        <div class="col-sm-12 col-md-5 column5">
+          <div class="first-part">
+            <div class="first-part-text">
+              <p>Parking spaces around <b>Lekki Gardens</b></p>
+              <p><small>28 Parking spaces found</small></p>
+            </div>
+            <div class="form-group formGroup">
+              <select
+                class="form-control form-control-select"
+                name=""
+                id="exampleFormControlSelect1"
+              >
+                <option selected>Sort by</option>
+                <option>Location</option>
+                <option>Cost</option>
+                <option>Proximity</option>
+              </select>
+            </div>
+          </div>
+          <hr id="hr2" />
+          <div class="div">
+            <div class="location loc1">
+              <div class="loc-image">
+                <img
+                  src="https://res.cloudinary.com/dzwnhcpep/image/upload/v1572964741/Car%20Park/Rectangle_4667_eenlzr.png"
+                  alt="Parking space"
+                />
+              </div>
+              <div class="loc-text">
+                <p>Palms Mall Parking Lot</p>
+                <p><small>3km away</small></p>
+                <button type="button" class="btn btn-primary book-now">
+                  ₦200 <span class="vl">|</span> Book now
+                </button>
+              </div>
+
+              <div class="loc-info grid-item">
+                <p>12 spots</p>
+                <a href="#">Details</a>
+              </div>
+            </div>
+            <div class="location loc2">
+              <div class="loc-image">
+                <img
+                  src="https://res.cloudinary.com/dzwnhcpep/image/upload/v1572964752/Car%20Park/Rectangle_4667_1_pcfar5.png"
+                  alt="Parking space"
+                />
+              </div>
+              <div class="loc-text">
+                <p>Civic Towers Car Park</p>
+                <small>2km away</small>
+                <button type="button" class="btn btn-primary book-now">
+                  ₦200 <span class="vl">|</span> Book now
+                </button>
+              </div>
+
+              <div class="loc-info grid-item">
+                <p>12 spots</p>
+                <a href="#">Details</a>
+              </div>
+            </div>
+            <div class="location loc3">
+              <div class="loc-image">
+                <img
+                  src="https://res.cloudinary.com/dzwnhcpep/image/upload/v1572964751/Car%20Park/Rectangle_4667_2_wefu5k.png"
+                  alt="Parking space"
+                />
+              </div>
+              <div class="loc-text">
+                <p>Zenith Bank Car Park</p>
+                <small>1km away</small>
+                <button type="button" class="btn btn-primary book-now">
+                  ₦200<span class="vl">|</span>Book now
+                </button>
+              </div>
+
+              <div class="loc-info grid-item">
+                <p>12 spots</p>
+                <a href="#">Details</a>
+              </div>
+            </div>
+            <div class="location loc4">
+              <div class="loc-image">
+                <img
+                  src="https://res.cloudinary.com/dzwnhcpep/image/upload/v1572964749/Car%20Park/Rectangle_4667_3_nbba9e.png"
+                  alt="Parking space"
+                />
+              </div>
+              <div class="loc-text">
+                <p>Deloitte Car Park</p>
+                <small>3km away</small>
+                <button type="button" class="btn btn-primary book-now">
+                  ₦200 <span class="vl">|</span> Book now
+                </button>
+              </div>
+
+              <div class="loc-info grid-item">
+                <p>12 spots</p>
+                <a href="#">Details</a>
+              </div>
+            </div>
+            <div class="location loc5">
+              <div class="loc-image">
+                <img
+                  src="https://res.cloudinary.com/dzwnhcpep/image/upload/v1572964741/Car%20Park/Rectangle_4667_4_jivyz0.png"
+                  alt="Parking space"
+                />
+              </div>
+              <div class="loc-text">
+                <p>Regus Parking</p>
+                <small>2km away</small>
+                <button type="button" class="btn btn-primary book-now">
+                  ₦200 <span class="vl">|</span> Book now
+                </button>
+              </div>
+
+              <div class="loc-info grid-item">
+                <p>12 spots</p>
+                <a href="#">Details</a>
+              </div>
+            </div>
+            <div class="location loc6">
+              <div class="loc-image">
+                <img
+                  src="https://res.cloudinary.com/dzwnhcpep/image/upload/v1572964736/Car%20Park/Rectangle_4667_5_titvz2.png"
+                  alt="Parking space"
+                />
+              </div>
+              <div class="loc-text">
+                <p>National Industrial Car Park</p>
+                <small>3km away</small>
+                <button type="button" class="btn btn-primary book-now">
+                  ₦200<span class="vl">|</span> Book now
+                </button>
+              </div>
+              <div class="loc-info grid-item">
+                <p>12 spots</p>
+                <a href="#">Details</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-7 columnMap">
+           
+          <iframe
+            class="map"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d253682.45932584812!2d3.143870842679279!3d6.548376811897792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8b2ae68280c1%3A0xdc9e87a367c3d9cb!2sLagos!5e0!3m2!1sen!2sng!4v1572273126205!5m2!1sen!2sng"
+            frameborder="0"
+            style="border:0;"
+            allowfullscreen=""
+          ></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!--Footer-->
+ <<footer class="footer mt-5">
+        <div class="row container-fluid ">
+          <div class="col-sm-12 col-md-6 align-self-center hero1 foot1">
+            <h1 class="foot-one">
+              Finding a parking space should be easy, convenient and not
+              stressful.
+            </h1>
+            <p class="foot-paragraph mb-4">
+              Download the carpark app today and find secure spaces to park your
+              vehicles .
+            </p>
+            <button class="btn btn-success my-2 my-sm-0 nav-btn foot-btn shadow-none" type="submit">
+              <div>
+                <img src="https://res.cloudinary.com/dzwnhcpep/image/upload/v1571932706/Icon_zfkudh.svg"
+                  alt="Google Playstore" />
+                Download App
+              </div>
+            </button>
+          </div>
+          <div class="col-sm-12 col-md-6 hero2 d-none d-md-block d-xl-block">
+            <div>
+              <div class="eclipse2">
+                <img class="hero-img img-fluid"
+                  src="https://res.cloudinary.com/dzwnhcpep/image/upload/v1571933234/Car%20Park/three_hd8ge5.svg"
+                  alt="Android Phone" />
+              </div>
+              <img class="hero-dots"
+                src="https://res.cloudinary.com/dzwnhcpep/image/upload/v1572276314/Car%20Park/Group_31_dlt1bx.svg"
+                alt="dots" />
+            </div>
+          </div>
+        </div>
+        <hr class="footer" />
+        <div class="footer-links container pr-3 pl-3">
+            <a href="index.html">
+                <img class="foot-brand"
+                src="https://res.cloudinary.com/ladydondammy/image/upload/v1572611066/logo-white_xhzgfr.svg"           
+                  alt="Logo"
+                />
+              </a>
+          <a href="faq.html">FAQ</a>
+          <a href="contact.html">Contact Us</a>
+          <a href="partner.html">Become a Partner</a>
+          <a href="http://car-park.ga">Admin</a>
+          <a href="support.html">Support</a>
+          <a href="termsOfService.html">Service Agreement</a>
+          <a href="termsOfService.html">Privacy Policy</a>
+          <a href="">&#9400;HNG Internship, 2019 </a>
+        </div>
+      </footer>
+
+
+    <script
+      src="https://kit.fontawesome.com/2534cfc66b.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script> 
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    
+      <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+      <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+      <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+
+    <script>
+      $(function() {
+        $(".datetimerange").daterangepicker({
+          timePicker: true,
+          timePickerIncrement: 1,
+          locale: {
+            format: "MM/DD/YYYY  h:mm A"
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
