@@ -21,16 +21,23 @@ class CheckAdmin
         if (! $user) {
             return response([
                 'message' => 'Unauthorised!',
-                'status' => false
+                'status' => 'false'
             ], 401);
         }
 
-        // The user must be an admin
-        if ($user->role != 'admin') {
-            return response([
-                'message' => 'Forbidden: Insufficient privileges',
-                'status' => false
-            ], 403);
+        // The user must be an admin user
+        switch ($user->role) {
+            case 'admin':            
+            case 'partner':
+                break;
+
+            default:
+                return response([
+                    'status' => 'false',
+                    'message' => 'Forbidden: Insufficient privileges',
+                    'hint'    => 'You must be logged in as an admin officer',
+                ], 403);
+                break;
         }
 
         return $next($request);
