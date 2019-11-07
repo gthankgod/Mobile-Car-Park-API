@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Rules\RegisteredPhonNumber;
 use App\OTP;
 use App\User;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
@@ -84,6 +85,8 @@ class LoginController extends Controller
      */
    private function createResponse(string $token, User $user)
    {
+       event(new Login('api', $user, false));
+
        return response()->json([
            'message' => 'Login successful.',
            'data' => [

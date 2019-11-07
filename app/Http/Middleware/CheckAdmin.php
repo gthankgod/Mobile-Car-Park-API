@@ -21,7 +21,7 @@ class CheckAdmin
         if (! $user) {
             return response([
                 'message' => 'Unauthorised!',
-                'status' => 'false'
+                'status' => false
             ], 401);
         }
 
@@ -29,7 +29,7 @@ class CheckAdmin
         if ($user->role != 'admin') {
             return response([
                 'message' => 'Forbidden: Insufficient privileges',
-                'status' => 'false'
+                'status' => false
             ], 403);
         }
 

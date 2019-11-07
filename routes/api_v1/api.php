@@ -53,3 +53,9 @@ Route::group(['prefix' => 'park', 'middleware' => 'isuser'], function () {
     Route::get('all', 'CarParkController@index');
     Route::get('{id}', 'CarParkController@show');
 });
+
+
+Route::prefix('users')->middleware('admin')->group(function () {
+    Route::get('', 'AdminUsersController@index');
+
+});
