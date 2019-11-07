@@ -36,7 +36,7 @@ Route::prefix('vehicles')->middleware('auth')->group( function () {
     Route::delete('{id}', 'VehiclesController@delete');
 });
 
-Route::group(['prefix' => 'park', 'middleware' => 'admin'], function () {
+Route::group(['prefix' => 'park', 'middleware' => 'isuser'], function () {
     Route::group(['middleware' => 'admin'], function () {
         Route::get('active', 'CarParkController@showActive');
         Route::get('inactive', 'CarParkController@showInActive');

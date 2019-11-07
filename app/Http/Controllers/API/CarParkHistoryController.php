@@ -58,7 +58,7 @@ class CarParkHistoryController extends Controller
             return response()->json([
             	'status' => true,
             	'count'	 => $user_histoy->count(),
-            	'data'	 => $user_histoy,
+            	'result' => $user_histoy,
             ], 200);
         }
     }
