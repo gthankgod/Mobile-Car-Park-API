@@ -15,27 +15,20 @@ class LoginController extends Controller
 {
     /**
      * Login a client/user
-     * @param Request $request
+     * @param array $data
+     * @param User $user
+     * @param string $method
      * @return \Illuminate\Http\JsonResponse
      */
-   public function user(Request $request)
+   private function loginUser(array $data, ?User $user, string $method)
    {
-       $data = $request->validate([
-           'phone' => ['required', new RegisteredPhonNumber],
-           'password' => ['required', 'string'],
-       ]);
-
-       $data['phone'] = Helper::formatPhoneNumber($data['phone']);
-
-       $user = User::where('phone', $data['phone'])->where('role', 'user')->first();
-
        // Check password
        if (
            ! $user
             || !Hash::check($data['password'], $user->password)
        ) {
            return  response()->json([
-               'message' => "Invalid phone number/password combination.",
+               'message' => "Invalid phone {$method}/password combination.",
            ], 400);
        }
 
@@ -46,6 +39,42 @@ class LoginController extends Controller
        }
 
         return $this->createResponse($token, $user);
+   }
+
+    /**
+     * Login User with email and password
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+   public function UserWthEmail(Request $request)
+   {
+       $data = $request->validate([
+           'email' => ['required', 'email', 'exists:users'],
+           'password' =>  ['required'],
+       ]);
+
+       $user = User::query()->where('email', $data['email'])->first();
+
+       return $this->loginUser($data, $user, "Phone");
+   }
+
+    /**
+     * Login user with phone and password
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+   public function userWithPhone(Request $request)
+   {
+       $data = $request->validate([
+           'phone' => ['required', new RegisteredPhonNumber],
+           'password' => ['required', 'string'],
+       ]);
+
+       $data['phone'] = Helper::formatPhoneNumber($data['phone']);
+
+       $user = User::where('phone', $data['phone'])->where('role', 'user')->first();
+
+       return $this->loginUser($data, $user, "Email");
    }
 
     /**
