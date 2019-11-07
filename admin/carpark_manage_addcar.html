@@ -253,31 +253,31 @@
     <div class="row justify-content-center">
             <div class="col-sm-5 mt-4">
                 <label class="label">Name of Car Park</label>
-                    <input class="form-control" type="text">
+                    <input class="form-control" type="text" id="name">
                   </div>
 
               <div class="col-sm-5 mt-4">
                     <label class="label">Name of Car Park Owner</label>
-                    <input class="form-control" type="text">
+                    <input class="form-control" type="text" id="owner">
                   </div>
             </div>
 
             <div class="row justify-content-center">
                     <div class="col-sm-5">
                         <label class="label">Address of Car Park</label>
-                            <input class="form-control" type="text">
+                            <input class="form-control" type="text" id="address">
                           </div>
 
                           <div class="col-sm-5">
                                 <label class="label">Phone Number of Car Park Owner</label>
-                                    <input class="form-control" type="phone">     
+                                    <input class="form-control" type="phone"  id="phone">     
                                   </div>
             </div>
 
             <div class="row justify-content-center">
                     <div class="col-sm-5">
                         <label class="label">Car Park Fee</label>
-                            <input class="form-control" type="text">  
+                            <input class="form-control" type="text" id="fee">  
                             <p class="p-note mt-4">This information here is what will be shown to users</p>
                           </div>
                           
@@ -286,7 +286,7 @@
             </div>
             <div class="row justify-content-center">
                     <div class="col-sm-5">
-                            <button class="btn btn-primary add-car-btn-2">Send Request</button>
+                            <button class="btn btn-primary add-car-btn-2" id="submit">Send Request</button>
                           </div>
                           <div class="col-sm-5">
                                   </div>
@@ -363,5 +363,6 @@ $(document).ready(function(){
                });
                  
            </script>
+           <script src="../js/admin/carpark_manage_addcar.js"></script>
 </body>
 </html>
