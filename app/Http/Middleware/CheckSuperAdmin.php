@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class CheckAdmin
+class CheckSuperAdmin
 {
     /**
      * Handle an incoming request.
@@ -25,19 +25,13 @@ class CheckAdmin
             ], 401);
         }
 
-        // The user must be an admin user
-        switch ($user->role) {
-            case 'admin':            
-            case 'partner':
-                break;
-
-            default:
-                return response([
-                    'status' => 'false',
-                    'message' => 'Forbidden: Insufficient privileges',
-                    'hint'    => 'You must be logged in as an admin officer',
-                ], 403);
-                break;
+        // The user must be a super-admin
+        if ($user->role != 'admin') {
+            return response([
+                'status'  => 'false',
+                'message' => 'Forbidden: Insufficient privileges',
+                'hint'    => 'You must be logged in as a super-admin officer',
+            ], 403);
         }
 
         return $next($request);

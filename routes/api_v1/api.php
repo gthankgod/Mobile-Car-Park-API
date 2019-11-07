@@ -38,19 +38,35 @@ Route::prefix('vehicles')->middleware('auth')->group( function () {
 });
 
 Route::group(['prefix' => 'park', 'middleware' => 'isuser'], function () {
-    Route::group(['middleware' => 'admin'], function () {
-        Route::get('active', 'CarParkController@showActive');
-        Route::get('inactive', 'CarParkController@showInActive');
-    	Route::post('/', 'CarParkController@store');
-    	Route::put('{id}', 'CarParkController@update');
-        Route::get('/history', 'CarParkHistoryController');
+    Route::group(['prefix' => 'sa', 'middleware' => 'superAdmin'], function () {
+        Route::get('inactive', 'CarParkController@showSuperInActive');
+        Route::get('bookings', 'CarParkBookingController@showSuperBookings');
+        Route::get('bookings/current', 'CarParkBookingController@superCurrent');
+        Route::get('bookings/history', 'CarParkBookingController@superHistory');
+        Route::get('bookings/{park_id}', 'CarParkBookingController@showSuperSingleBooking');
     });
-
-    Route::get('/history/{id?}', 'CarParkHistoryController');
-    Route::post('/book/{id}', 'CarParkBookingController');
-    Route::put('/book/{id}', 'CarParkBookingController@update');
-
-	Route::get('/', 'CarParkController@apiIndex');
+    
+    Route::group(['middleware' => 'admin'], function () {
+        Route::post('/', 'CarParkController@store');
+        Route::put('{id}', 'CarParkController@update');
+        Route::get('users/{park_id}', 'CarParkBookingController@getUsers');
+        Route::get('bookings/{park_id}', 'CarParkBookingController@carParksBooking');
+        Route::delete('revoke-booking/{booking_id}', 'CarParkBookingController@revoke');
+        Route::get('activated-parks', 'CarParkController@showAdminActive');
+        Route::get('deactivated-parks', 'CarParkController@showInActive');
+        Route::patch('set-active/{park_id}', 'CarParkController@activate');
+        Route::patch('set-inactive/{park_id}', 'CarParkController@deactivate');
+        Route::delete('{id}', 'CarParkController@delete');
+        Route::get('booking/current/{park_id}', 'CarParkBookingController@carParkCurrent');
+        Route::get('booking/history/{park_id}', 'CarParkBookingController@carParkHistory');
+    });
+    
+    Route::get('booking/my-history', 'CarParkBookingController@carParkHistory');
+    Route::get('booking/my-current', 'CarParkBookingController@carParkCurrent');
+    Route::post('book/{park_id}', 'CarParkBookingController');
+    Route::put('book/{booking_id}', 'CarParkBookingController@update');
+    Route::get('active', 'CarParkController@showActive');
+    Route::get('/', 'CarParkController@apiIndex');
     Route::get('all', 'CarParkController@index');
     Route::get('{id}', 'CarParkController@show');
 });
