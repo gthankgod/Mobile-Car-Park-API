@@ -12,10 +12,18 @@ class CarParkBooking extends Model
      * @var array
      */
     protected $fillable = [
-    	'check_in',
-    	'check_out',
-    	'vehicle_no',
-    	'amount',
-    	'status'
+        'check_in',
+        'check_out',
+        'vehicle_no',
+        'amount',
+        'status'
     ];
+
+    /**
+     * Car Park Booking relationship with CarPark
+     */
+    public function park()
+    {
+        return $this->hasOne(CarPark::class);
+    }
 }
