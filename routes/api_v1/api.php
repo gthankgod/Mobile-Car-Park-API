@@ -18,7 +18,8 @@ Route::prefix('auth')->namespace('Auth')->group(function () {
 
     Route::prefix('login')->group( function () {
         Route::post('/', 'LoginController@adminAndPartner');
-        Route::post('user', 'LoginController@user');
+        Route::post('user', 'LoginController@userWithPhone');
+        Route::post('user-email', 'LoginController@UserWthEmail');
         Route::post('facebook', 'FacebookLoginController');
     });
 });
@@ -72,6 +73,6 @@ Route::group(['prefix' => 'park', 'middleware' => 'isuser'], function () {
 
 
 Route::prefix('users')->middleware('admin')->group(function () {
-    Route::get('', 'AdminUsersController@index');
-
+    Route::get('/', 'AdminUsersController@index');
+    Route::get('{user_id}', 'AdminUsersController@show');
 });
