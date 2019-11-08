@@ -19,10 +19,11 @@ function login()
        localStorage.setItem('token',  `Bearer ${response.data.data.access_token}`);
         localStorage.setItem('user', JSON.stringify(response.data.data.user));
 
-       if (response.data.data.user.role == 'admin') {
-           window.location.replace('/super-admin')
-       } else {
-           window.location.replace('/admin/dashboard_analytics.html');
+        let role = response.data.data.user.role;
+       if (role === 'admin') {
+           window.location.replace('/super-admin/dashboard_overview.html')
+       } else if(role === 'partner') {
+           window.location.replace('/admin/overview.html');
        }
     })
     .catch(error => {
