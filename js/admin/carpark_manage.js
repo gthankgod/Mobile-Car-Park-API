@@ -1,9 +1,6 @@
-const carpark = document.querySelector('#carpark');
-const carparkOwners = document.querySelector('#carparkOwners');
-const address = document.querySelector('#address');
-const phone = document.querySelector('#phone');
-
 const firsts = document.querySelector('#carparks');
+const data = document.querySelector('#data');
+console.log(data);
 
 var settings = {
     "async": true,
@@ -20,10 +17,12 @@ var settings = {
   fetch('https://hng-car-park-api.herokuapp.com/api/v1/park', settings )
     .then(response => response.json())
     .then(carpark => {
-        const {result } = carpark ;
-        console.log(result);
+        const { result } = carpark ;
        value = '';
+       console.log(result);
        result.forEach(b => {
+          const div = document.createElement('div');
+          div.className = 'texts garden-head first';
            value = `
         <div class="width carpark">${b.name}</div>
         <div class="width" id="carparkOwner">${b.owner}</div>
@@ -33,7 +32,8 @@ var settings = {
         <div class="width"><img class="pointer"  src="https://res.cloudinary.com/dfjzditzc/image/upload/v1572539892/Ellipse_496_oalgod.png"></div>
         <div class="width"><img class="pointer"  src="https://res.cloudinary.com/dfjzditzc/image/upload/v1572540004/ic-baseline-delete-forever_ogjvcv.png"></div>
         `;
-        firsts.innerHTML = value;
+        div.innerHTML = value;
+        data.append(div);
        });
       
    }).catch(err => console.log(err)) ;
