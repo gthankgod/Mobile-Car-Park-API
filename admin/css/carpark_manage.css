@@ -218,12 +218,6 @@ hr {
     justify-content: space-between;
 }
 
-
-.second {
-    display: flex;
-    justify-content: space-between;
-}
-
 .first {
     display: flex;
     justify-content: space-between;
