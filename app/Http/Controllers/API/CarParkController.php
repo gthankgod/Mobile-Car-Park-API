@@ -36,7 +36,8 @@ class CarParkController extends Controller
      */
     public function store(
         CarPark $park,
-        Request $request
+        Request $request,
+        ImageController $image
     ){
         // Validate posted data
         $this->validate($request, [
@@ -45,7 +46,6 @@ class CarParkController extends Controller
             'address'     => ['bail', 'required', 'string',],
             'phone'       => ['bail', 'required', 'string', 'min:11', 'phone:NG'],
             'fee'         => ['bail', 'required', 'between:0,99.99', 'min:0'],
-            'image_link'  => ['bail', 'string', 'nullable']
         ]);
 
         $park->name       = $request->name;
@@ -53,15 +53,49 @@ class CarParkController extends Controller
         $park->address    = $request->address;
         $park->phone      = $request->phone;
         $park->fee        = $request->fee;
-        $park->image_link = $request->image_link;
         $park->user_id    = $this->user->id;
         $park->status     = 1;
 
+        // Upload image
+        if ($request->hasFile('image')) {
+            $data = $this->upload($request, $image);
+
+            if ($data['code'] !=  200) {
+                return response()->json($data, $data['code']);
+            }
+            else {
+                $park->image_name = $data['image'];
+                $park->image_link = $data['image_link'];
+            }
+        }
+        else {
+            $data = null;
+            $park->image_name = 'no-image.png';
+            $park->image_link = '';
+        }
+
         // Save to db
         if ($park->save()) {
+            // Prepare JSON response
+            $image_data = [
+                'image_round_format' => $data['image_round_format'],
+                'image_square_format' => $data['image_square_format'],
+            ];
+
+            $park_details = [
+                'park_id' => $park->id,
+                'name' => $park->name,
+                'owner' => $park->owner,
+                'address' => $park->address,
+                'phone' => $park->phone,
+                'fee' => $park->fee,
+                'user_id' => $park->user_id,
+            ];
+
+            $result_set = array_merge($park_details, $image_data);
             return response()->json([
                 'status'  => true,
-                'result'  => $park,
+                'result'  => $result_set,
                 'message' => 'The parking space was successfully added'
             ], 200);
         }
@@ -96,7 +130,6 @@ class CarParkController extends Controller
                 'phone'       => ['string', 'min:11', 'phone:NG'],
                 'fee'         => ['integer', 'min:0'],
                 'status'      => ['integer'],
-                'image_link'  => ['string', 'nullable']
             ]);
 
             $update->name       = $request->name ?? $update->name;
@@ -104,14 +137,30 @@ class CarParkController extends Controller
             $update->address    = $request->address ?? $update->address;
             $update->phone      = $request->phone ?? $update->phone;
             $update->fee        = $request->fee ?? $update->fee;
-            $update->image_link = $request->image_link ?? $update->image_link;
             $update->status     = $request->status ?? $update->status;
+
+            // Upload image
+            if ($request->hasFile('image')) {
+                $data = $this->upload($request, $image);
+
+                if ($data['status_code'] !=  200) {
+                    return response()->json($data, $data['status_code']);
+                }
+                else {
+                    $park->image_link = $data['image'];
+                }
+            }
+            else {
+                $data = null;
+                $park->image_link = $update->image_link;
+            }
 
             // Save to db
             if ($update->save()) {
                 return response()->json([
                     'status'  => true,
                     'result'  => $update,
+                    'image_info' => $data,
                     'message' => 'The record was successfully updated'
                 ], 200);
             }
@@ -400,5 +449,17 @@ class CarParkController extends Controller
                 'message' => 'You are not assigned to this park'
             ], 404);
         }
+    }
+
+    private function upload($request, $image, $table = null)
+    {
+        $user = $this->user;
+
+        $this->validate($request, [
+            'image_name' => "image|max:5000|mimes:jpeg,jpg,png|between:1, 6000",
+        ]);
+
+        // Process image upload
+        return $image->imageUpload($request, $table);
     }
 }
