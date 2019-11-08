@@ -69,6 +69,9 @@ Route::group(['prefix' => 'park', 'middleware' => 'isuser'], function () {
     Route::get('active', 'CarParkController@showActive');
     Route::get('/', 'CarParkController@apiIndex');
     Route::get('all', 'CarParkController@index');
+    Route::get('my-bookings', 'CarParkBookingController@myBookings');
+    Route::get('my-bookings/{booking_id}', 'CarParkBookingController@getBooking');
+    Route::post('rebook/{booking_id}', 'CarParkBookingController@reBook');
     Route::get('{id}', 'CarParkController@show');
 });
 
