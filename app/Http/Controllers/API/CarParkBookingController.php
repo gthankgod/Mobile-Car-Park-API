@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CarParkBookingController extends Controller
 {
@@ -62,6 +63,9 @@ class CarParkBookingController extends Controller
         	$booking->amount 		= $parking_space->fee;
         	$booking->status 		= 1;
 
+        	// Generate QR image
+        	$qr = $this->generateQRCode($randomToken = Str::random(6), 100);
+
         	if (!$booking->save()) {
         		throw new Exception;
         	}
@@ -78,6 +82,7 @@ class CarParkBookingController extends Controller
                     'vehicle_no'              => $booking->vehicle_no,
                     'amount'                  => $booking->amount,
                     'created_at'              => $booking->created_at,
+                    'qr_image_src'			  => $qr,
                     'parking_space_name'      => $parking_space->name,
                     'parking_space_owner'     => $parking_space->owner,
                     'parking_space_address'   => $parking_space->address,
@@ -480,6 +485,10 @@ class CarParkBookingController extends Controller
             DB::beginTransaction();
 
             try {
+
+	        	// Generate QR image
+	        	$qr = $this->generateQRCode($randomToken = Str::random(6), 100);
+
                 // Clone the record;
                 $new_booking = $booking->replicate();
 
@@ -504,6 +513,7 @@ class CarParkBookingController extends Controller
                         'vehicle_no'              => $new_booking->vehicle_no,
                         'amount'                  => $new_booking->amount,
                         'created_at'              => $new_booking->created_at,
+                        'qr_image_src'			  => $qr,
                         'parking_space_name'      => $parking_space->name,
                         'parking_space_owner'     => $parking_space->owner,
                         'parking_space_address'   => $parking_space->address,
@@ -647,5 +657,10 @@ class CarParkBookingController extends Controller
                 ], 404);
             }
         }
+    }
+
+    private function generateQRCode($token, $size)
+    {
+    	return 'data:image/png;base64,'.base64_encode(QrCode::format('png')->size($size)->generate($token));
     }
 }
