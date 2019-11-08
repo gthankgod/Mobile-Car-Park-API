@@ -55,6 +55,8 @@ class CarParkBookingController extends Controller
 			// Save the record of the booking against the user
         	$booking = new CarParkBooking;
 
+        	$token = $randomToken = Str::random(6);
+
         	$booking->car_park_id 	= $id;
         	$booking->user_id 		= $this->user->id;
         	$booking->check_in 		= $request->check_in;
@@ -62,9 +64,10 @@ class CarParkBookingController extends Controller
         	$booking->vehicle_no 	= $request->vehicle_no;
         	$booking->amount 		= $parking_space->fee;
         	$booking->status 		= 1;
+        	$booking->qr_code 		= $token;
 
         	// Generate QR image
-        	$qr = $this->generateQRCode($randomToken = Str::random(6), 100);
+        	$qr = $this->generateQRCode($token, 100);
 
         	if (!$booking->save()) {
         		throw new Exception;
@@ -83,6 +86,7 @@ class CarParkBookingController extends Controller
                     'amount'                  => $booking->amount,
                     'created_at'              => $booking->created_at,
                     'qr_image_src'			  => $qr,
+                    'qr_code'			  => $token,
                     'parking_space_name'      => $parking_space->name,
                     'parking_space_owner'     => $parking_space->owner,
                     'parking_space_address'   => $parking_space->address,
@@ -485,9 +489,10 @@ class CarParkBookingController extends Controller
             DB::beginTransaction();
 
             try {
+	        	$token = $randomToken = Str::random(6);
 
 	        	// Generate QR image
-	        	$qr = $this->generateQRCode($randomToken = Str::random(6), 100);
+	        	$qr = $this->generateQRCode($token, 100);
 
                 // Clone the record;
                 $new_booking = $booking->replicate();
@@ -496,6 +501,8 @@ class CarParkBookingController extends Controller
                 $new_booking->check_out     = $request->check_out ?? $booking->check_out;
                 $new_booking->vehicle_no    = $request->vehicle_no ?? $booking->vehicle_no;
                 $new_booking->amount        = $parking_space->fee ?? $booking->amount;
+	        	$new_booking->qr_code 		= $token;
+
 
                 if (!$new_booking->save()) {
                     throw new Exception;
@@ -514,6 +521,7 @@ class CarParkBookingController extends Controller
                         'amount'                  => $new_booking->amount,
                         'created_at'              => $new_booking->created_at,
                         'qr_image_src'			  => $qr,
+                        'qr_code'				  => $token,
                         'parking_space_name'      => $parking_space->name,
                         'parking_space_owner'     => $parking_space->owner,
                         'parking_space_address'   => $parking_space->address,
