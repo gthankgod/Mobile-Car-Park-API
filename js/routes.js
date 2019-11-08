@@ -10,6 +10,10 @@ class Routes {
     login() {
         console.log(this._origin);
         return `${this._origin}/auth/login`;
+    };
+
+    user() {
+        return `${this._origin}/user`;
     }
 }
 
