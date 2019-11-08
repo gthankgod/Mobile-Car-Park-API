@@ -347,6 +347,74 @@ class CarParkBookingController extends Controller
     }
 
     /**
+     * Get all bookings of a logged in user
+     *
+     */
+    public function myBookings()
+    {
+        // Get the intended resource
+        $bookings = $this->user->bookings()
+            ->join('car_parks', 'car_parks.id', 'car_park_bookings.car_park_id')
+            ->get([
+                'car_park_bookings.car_park_id', 'car_park_bookings.user_id', 'car_park_bookings.check_in',
+                'car_park_bookings.check_out', 'car_park_bookings.vehicle_no', 'car_park_bookings.amount',
+                'car_park_bookings.id as booking_id', 'car_parks.name as car_park_name',
+                'car_parks.owner as car_park_owner', 'car_parks.address as car_park_address',
+                'car_parks.phone as car_park_phone', 'car_parks.fee as car_park_fee',
+                'car_parks.image_link as car_park_image_link', 'car_parks.status as car_park_activated',
+            ]);
+
+        if ($bookings->isNotEmpty()) {
+            // Output details
+            return response()->json([
+                'count'   => $bookings->count(),
+                'status'  => true,
+                'result'  => $bookings
+            ], 200);
+        }
+        else {
+            return response()->json([
+                'status'  => false,
+                'message' => 'You have not made any booking'
+            ], 404);
+        }
+    }
+
+    /**
+     * Get details of a single booking of a logged in user
+     *
+     */
+    public function getBooking($booking_id)
+    {
+        // Check if such a booking has been made
+        $booking = $this->user->bookings()->find($booking_id);
+
+        if (!$booking) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'The booking id could not be verified as associated with the user'
+            ], 404);
+        }
+        else {
+            $booking = $booking->join('car_parks', 'car_parks.id', 'car_park_bookings.car_park_id')
+                ->first([
+                    'car_park_bookings.car_park_id', 'car_park_bookings.user_id', 'car_park_bookings.check_in',
+                    'car_park_bookings.check_out', 'car_park_bookings.vehicle_no', 'car_park_bookings.amount',
+                    'car_park_bookings.id as booking_id', 'car_parks.name as car_park_name',
+                    'car_parks.owner as car_park_owner', 'car_parks.address as car_park_address',
+                    'car_parks.phone as car_park_phone', 'car_parks.fee as car_park_fee',
+                    'car_parks.image_link as car_park_image_link', 'car_parks.status as car_park_activated',
+                ]);
+
+            // Output details
+            return response()->json([
+                'status'  => true,
+                'result'  => $booking
+            ], 200);
+        }
+    }
+
+    /**
      * Get all current car parks' bookings for a single car park
      *
      */
@@ -376,6 +444,91 @@ class CarParkBookingController extends Controller
                 'status'  => false,
                 'message' => 'No past scheduled booking was found'
             ], 404);
+        }
+    }
+
+    /**
+     * Re-book a car park
+     *
+     */
+    public function reBook($booking_id, Request $request)
+    {
+        // Get current time
+        $current_time = Carbon::now()->toDateTimeString();
+
+        // Verify the existence of the booking tied to the user
+        // Ensure that it is a previous booking
+        $booking = $this->user->bookings()->where('check_out', '<=', $current_time)->find($booking_id);
+
+        if (is_null($booking)) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'The booking id could not be verified as associated with the user'
+            ], 404);
+        }
+        else {
+            // Validate posted request
+            $this->validate($request, [
+                'check_in'    => ['date'],
+                'check_out'   => ['date'],
+                'vehicle_no'  => ['string'],
+            ]);
+
+            // Get existing car park
+            $parking_space = CarPark::find($booking->car_park_id);
+
+            DB::beginTransaction();
+
+            try {
+                // Clone the record;
+                $new_booking = $booking->replicate();
+
+                $new_booking->check_in      = $request->check_in ?? $booking->check_in;
+                $new_booking->check_out     = $request->check_out ?? $booking->check_out;
+                $new_booking->vehicle_no    = $request->vehicle_no ?? $booking->vehicle_no;
+                $new_booking->amount        = $parking_space->fee ?? $booking->amount;
+
+                if (!$new_booking->save()) {
+                    throw new Exception;
+                }
+                else {
+                    // Transaction was successful
+                    DB::commit();
+
+                    // Prepare a formated response
+                    $result = [
+                        'booking_id'              => $new_booking->id,
+                        'user_id'                 => $new_booking->user_id,
+                        'check_in'                => $new_booking->check_in,
+                        'check_out'               => $new_booking->check_out,
+                        'vehicle_no'              => $new_booking->vehicle_no,
+                        'amount'                  => $new_booking->amount,
+                        'created_at'              => $new_booking->created_at,
+                        'parking_space_name'      => $parking_space->name,
+                        'parking_space_owner'     => $parking_space->owner,
+                        'parking_space_address'   => $parking_space->address,
+                        'parking_space_phone'     => $parking_space->phone,
+                        'parking_space_image_link'=> $parking_space->image_link,
+                        'parking_space_status'    => $parking_space->status == 1 ? "activated" : "deactivated",
+                    ];
+
+                    // Send response
+                    return response()->json([
+                        'status'  => true,
+                        'message' => 'Car Park has been booked successfully',
+                        'result'  => $result
+                    ], 200);
+                }
+            } catch(Exception $e) {
+                // Transaction was not successful
+                DB::rollBack();
+
+                return response()->json([
+                    'status'  => false,
+                    'message' => 'Unable to book parking space',
+                    'hint'    => $e->getMessage()
+                ], 501);
+            }
         }
     }
 
