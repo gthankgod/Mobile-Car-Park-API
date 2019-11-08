@@ -16,7 +16,8 @@ class CarParkBooking extends Model
         'check_out',
         'vehicle_no',
         'amount',
-        'status'
+        'status',
+        'qr_code'
     ];
 
     /**
