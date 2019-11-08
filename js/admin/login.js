@@ -48,9 +48,9 @@ function login()
         localStorage.setItem('user', JSON.stringify(response.data.data.user));
 
        if (response.data.data.user.role == 'admin') {
-           window.location.replace('/super-admin')
+           window.location.replace('/dashboard_overview.html')
        } else {
-           window.location.replace('/admin/dashboard_analytics.html');
+           window.location.replace('/admin/overview.html');
        }
     })
     .catch(error => {
