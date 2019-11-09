@@ -7,14 +7,16 @@ class Routes {
         return this._origin;
     }
 
-    login() {
-        console.log(this._origin);
+    loginAdmin() {
         return `${this._origin}/auth/login`;
     };
 
-    user() {
-        console.log(this._origin);
+    loginUser() {
         return `${this._origin}/auth/login/user-email`;
+    }
+
+    user() {
+        return `${this._origin}/user`;
     }
 }
 

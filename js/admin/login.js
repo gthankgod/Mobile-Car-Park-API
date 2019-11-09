@@ -14,7 +14,7 @@ function login()
 
 
     axios.defaults.headers.post['Accept'] = 'application/json';
-    axios.post(routes.login(), form)
+    axios.post(routes.loginAdmin(), form)
     .then(response => {
        localStorage.setItem('token',  `Bearer ${response.data.data.access_token}`);
         localStorage.setItem('user', JSON.stringify(response.data.data.user));
