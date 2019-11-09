@@ -1,4 +1,4 @@
-axios.defaults.headers.post['Accept'] = 'application/json';
+axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['Authorization'] = bearerToken;
 
 //fetch stats
