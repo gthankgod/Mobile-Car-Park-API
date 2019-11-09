@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>contact-us</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link rel="stylesheet" href="CSS/contact.css" />
+
+</head>
+
+<body>
+    <div class="mt-5">
+        <nav class="navbar navbar-expand-lg navbar-light scrolling-navbar fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="index.html"><img src="http://3.86.112.219:8000/logo.svg"
+                        alt="Car Park logo"></a>
+                <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse" aria-controls="my-nav"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div id="my-nav" class="collapse navbar-collapse">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link text-dark" href="#">My Parking Space</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="#">Schedule</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Femi
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </nav>
+    </div>
+    <div class="container-fluid">
+
+        <div class="row bt-padding">
+            <div class="col-md-6 ">
+                <div class="wrapper">
+                    <div class="head">
+                        <i class="fas fa-address-card"></i>
+                        <div class="details">
+                            <h1>Contact Address</h1>
+                            <address>817 Preston Rd Oxnard, <br> Missouri 75738, <br> United States</address>
+                        </div>
+                    </div>
+                    <div class="head">
+                        <i class="fas fa-phone-alt"></i>
+                        <div class="details">
+                            <h1>Contact Number</h1>
+                            <p>(201) 555-0124</p>
+                            <p>(414) 555-0132</p>
+                            <p>(219) 555-0144</p>
+                        </div>
+                    </div>
+                    <div class="head">
+                        <i class="fas fa-envelope"></i>
+                        <div class="details">
+                            <h1>Contact Email</h1>
+                            <p>luke.smith@gmail.com</p>
+                            <p>bill.berry@gmail.com</p>
+                            <p>brandy.soto@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="contact">
+                    <h2>Get In Touch</h2>
+                    <form id="contact-form" method="post" action="" role="form">
+
+                        <div class="messages"></div>
+
+                        <div class="controls">
+
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <label for="form_name">Name </label>
+                                        <input id="form_name" type="text" name="name" class="form-control"
+                                            placeholder="Please enter your name *" required="required"
+                                            data-error="Name is required.">
+                                        <div class="errors"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <label for="form_email">Email </label>
+                                        <input id="form_email" type="email" name="email" class="form-control"
+                                            placeholder="Please enter your email *" required="required"
+                                            data-error="Valid email is required.">
+                                        <div class="errors"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <label for="form_message">Message </label>
+                                        <textarea id="form_message" name="message" class="form-control"
+                                            placeholder="Message for me *" rows="4" required="required"
+                                            data-error="Please, leave us a message."></textarea>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-10">
+                                    <button type="button" class="btn btn-primary">Send</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+ <footer class=" footer mt-5">
+    
+    <div class="row container-fluid">
+      <div class="col-sm-12 col-md-6 align-self-center hero1 foot1">
+        <h1 class="foot-one">
+          Finding a parking space should be easy, convenient and not
+          stressful.
+        </h1>
+        <p class="foot-paragraph mb-4">
+          Download the carpark app today and find secure spaces to park your
+          vehicles .
+        </p>
+        <button class="btn btn-success my-2 my-sm-0 nav-btn foot-btn shadow-none" type="submit">
+          <div>
+            <img src="https://res.cloudinary.com/dzwnhcpep/image/upload/v1571932706/Icon_zfkudh.svg"
+              alt="Google Playstore" />
+            Download App
+          </div>
+        </button>
+      </div>
+      <div class="col-sm-12 col-md-6 hero2 d-none d-md-block d-xl-block">
+        <div>
+          <div class="eclipse2">
+            <img class="hero-img img-fluid"
+              src="https://res.cloudinary.com/dzwnhcpep/image/upload/v1571933234/Car%20Park/three_hd8ge5.svg"
+              alt="Android Phone" />
+          </div>
+          <img class="hero-dots"
+            src="https://res.cloudinary.com/dzwnhcpep/image/upload/v1572276314/Car%20Park/Group_31_dlt1bx.svg"
+            alt="dots" />
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div class="footer-links">
+        <a href="index.html">
+            <img class="foot-brand"
+            src="https://res.cloudinary.com/ladydondammy/image/upload/v1572611066/logo-white_xhzgfr.svg"           
+              alt="Logo"
+            />
+          </a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Contact Us</a>
+      <a href="partner.html">Become a Partner</a>
+      <a href="http://car-park.ga">Admin</a>
+      <a href="support.html">Support</a>
+      <a href="termsOfService.html">Service Agreement</a>
+      <a href="termsOfService.html">Privacy Policy</a>
+      <a href="">&#9400;HNG Internship, 2019 </a>
+    </div>
+  </footer>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        AOS.init({
+            duration: 1200
+        });
+        var SCROLLING_NAVBAR_OFFSET_TOP = 50;
+        $(window).on("scroll", function () {
+            var $navbar = $(".navbar");
+
+            if ($navbar.length) {
+                if ($navbar.offset().top > SCROLLING_NAVBAR_OFFSET_TOP) {
+                    $(".scrolling-navbar").addClass("top-nav-collapse");
+                } else {
+                    $(".scrolling-navbar").removeClass("top-nav-collapse");
+                }
+            }
+        });
+
+
+    </script>
+</body>
+
+</html>
