@@ -13,7 +13,8 @@ class Routes {
     };
 
     user() {
-        return `${this._origin}/user`;
+        console.log(this._origin);
+        return `${this._origin}/auth/login/user-email`;
     }
 }
 
