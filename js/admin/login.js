@@ -1,5 +1,6 @@
 function login()
 {
+    toastr.options.preventDuplicates = true;
     toastr.options.timeOut = 0;
     const loginBtn = $(`#login-btn`);
     $(loginBtn).text(`Processing...`).attr(`dabbled`, true);

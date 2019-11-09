@@ -1,5 +1,6 @@
 function login() {
     toastr.options.timeOut = 0;
+    toastr.options.preventDuplicates = true;
     const loginBtn = $(`#login-btn`);
     $(loginBtn).text(`Processing...`).attr(`dabbled`, true);
     const target_form = document.querySelector(`form#login_form`);
@@ -12,14 +13,14 @@ function login() {
     }
 
 
-    axios.defaults.headers.post['Accept'] = 'application/json';
+    axios.defaults.headers.common['Accept'] = 'application/json';
     axios.post(routes.loginUser(), form)
         .then(response => {
             localStorage.setItem('token', `Bearer ${response.data.data.access_token}`);
             localStorage.setItem('user', JSON.stringify(response.data.data.user));
 
             let role = response.data.data.user.role;
-            if (role === 'users') {
+            if (role === 'user') {
                 window.location.replace('/users/car-park-search.html');
             }
         })
