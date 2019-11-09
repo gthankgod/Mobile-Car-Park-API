@@ -12,10 +12,9 @@ let request = new Request(routes.user(), {
     }),
 });
 fetch(request)
-    .then(() => {
-        const bearerToken = accesstoken;
-    })
 .catch(error => {
     // redirect to login
     return window.location.replace(`/admin/index.html`);
 });
+
+const bearerToken = accesstoken;
