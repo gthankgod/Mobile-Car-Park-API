@@ -18,6 +18,10 @@ class Routes {
     user() {
         return `${this._origin}/user`;
     }
+
+    overviewStats() {
+        return `${this._origin}/statistics/admin-overview`;
+    }
 }
 
 const routes = new Routes;
