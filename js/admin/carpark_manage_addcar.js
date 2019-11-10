@@ -8,6 +8,8 @@ submit.addEventListener('click', () => {
   const phone = document.querySelector('#phone').value;
   const fee = document.querySelector('#fee').value;
 
+  console.log(name, phone, address, phone, fee);
+
   if(!name || !owner || !address || !phone || !fee ) {
     return ;
   }
