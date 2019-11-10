@@ -27,7 +27,7 @@ let settings = {
     "method": "POST",
     "headers": {
       "Content-Type": "application/json",
-      "Accept": "*/*",
+      "Accept": "application/json",
       "Cache-Control": "no-cache",
       "Accept-Encoding": "gzip, deflate",
       "Content-Length": "141",
