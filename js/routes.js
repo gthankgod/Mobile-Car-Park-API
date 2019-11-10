@@ -22,6 +22,10 @@ class Routes {
     overviewStats() {
         return `${this._origin}/statistics/admin-overview`;
     }
+
+    changePassword() {
+        return `${this._origin}/user/password`;
+    }
 }
 
 const routes = new Routes;
