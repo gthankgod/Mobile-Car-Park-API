@@ -19,7 +19,7 @@ function login() {
             localStorage.setItem('user', JSON.stringify(response.data.data.user));
 
             let role = response.data.data.user.role;
-            if (role === 'users') {
+            if (role === 'user') {
                 window.location.replace('/users/car-park-search.html');
             }
         })
