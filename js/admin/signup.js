@@ -34,7 +34,7 @@ let settings = {
   fetch('https://hng-car-park-api.herokuapp.com/api/v1/auth/register/partner', settings )
     .then(response => response.json())
     .then(data => {
-        if(data.message === "Account has been created") { window.location.replace('./login.html'); return}
+        if(data.message === "Account has been created") { window.location.replace('../../admin/login.html'); return}
         return
    }).catch(err => console.log(err)) ;
 });
