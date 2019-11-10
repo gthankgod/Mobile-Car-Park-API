@@ -20,28 +20,21 @@ const partner = {
     password,
     password_confirmation
 } ;
-console.log(partner);
 let settings = {
     "async": true,
-    "crossDomain": true,
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-      "Cache-Control": "no-cache",
-      "Accept-Encoding": "gzip, deflate",
-      "Content-Length": "141",
-      "Connection": "keep-alive",
-      "cache-control": "no-cache"
-    },
-    "processData": false,
-    "body": JSON.stringify(partner)
+  "crossDomain": true,
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+  },
+  "data": JSON.stringify(partner)
   }
 
   fetch('https://hng-car-park-api.herokuapp.com/api/v1/auth/register/partner', settings )
     .then(response => response.json())
     .then(data => {
-        if(data.message === "Admin user created") { window.location.replace('../../admin/index.html'); return}
+        if(data.message === "Account has been created") { window.location.replace('./login.html'); return}
         return
    }).catch(err => console.log(err)) ;
 });
