@@ -37,7 +37,7 @@ var settings = {
     "body": JSON.stringify(carPark)
   }
   
-  settings.headers.Authorization = `Bearer ${localStorage.getItem('token')}` ;
+  settings.headers.Authorization = localStorage.getItem('token') ;
 
   fetch('https://hng-car-park-api.herokuapp.com/api/v1/park', settings )
     .then(response => response.json())
