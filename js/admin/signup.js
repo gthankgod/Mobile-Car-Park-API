@@ -41,7 +41,7 @@ let settings = {
   fetch('https://hng-car-park-api.herokuapp.com/api/v1/auth/register/partner', settings )
     .then(response => response.json())
     .then(data => {
-        if(data.message === "Admin user created") { window.location.replace('./login.html'); return}
+        if(data.message === "Admin user created") { window.location.replace('../../admin/index.html'); return}
         return
    }).catch(err => console.log(err)) ;
 });
